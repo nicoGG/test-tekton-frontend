@@ -25,6 +25,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/auth/auth.module').then((m) => m.AuthModule),
   },
+  {
+    path: 'AngularMaterial',
+    loadChildren: () =>
+      import('./material/angular-material.module').then(
+        (m) => m.AngularMaterialModule
+      ),
+  },
 ];
 
 @NgModule({
