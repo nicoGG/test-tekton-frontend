@@ -9,15 +9,15 @@ const routes: Routes = [
     path: '',
     component: HomePageComponent,
     canActivate: [AuthGuard],
-    children: [
-      {
-        path: 'favorite',
-        loadChildren: () =>
-          import('./modules/favorite/favorite.module').then(
-            (m) => m.FavoriteModule
-          ),
-      },
-    ],
+    //   children: [
+    //     {
+    //       path: 'favorite',
+    //       loadChildren: () =>
+    //         import('./modules/favorite/favorite.module').then(
+    //           (m) => m.FavoriteModule
+    //         ),
+    //     },
+    //   ],
   },
   {
     path: 'auth',
@@ -26,11 +26,15 @@ const routes: Routes = [
       import('./modules/auth/auth.module').then((m) => m.AuthModule),
   },
   {
-    path: 'AngularMaterial',
+    path: 'favorite',
     loadChildren: () =>
-      import('./material/angular-material.module').then(
-        (m) => m.AngularMaterialModule
+      import('./modules/favorite/favorite.module').then(
+        (m) => m.FavoriteModule
       ),
+  },
+  {
+    path: '**',
+    redirectTo: '',
   },
 ];
 

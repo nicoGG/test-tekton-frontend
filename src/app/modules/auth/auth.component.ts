@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -9,13 +9,14 @@ import {
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth/auth.service';
+import { LoginDto } from './dtos/login.dto';
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss'],
 })
-export class AuthComponent implements OnInit {
+export class AuthComponent implements OnInit, OnDestroy {
   loginForm = new FormGroup({
     username: new FormControl(),
     password: new FormControl(),
@@ -25,13 +26,15 @@ export class AuthComponent implements OnInit {
   constructor(
     private _formBuilder: FormBuilder,
     private _matSnackBar: MatSnackBar,
-    private _router: Router
-  ) // private _authService: AuthService
-  {
+    private _router: Router,
+    private _authService: AuthService
+  ) {
     this.createForm();
   }
 
   ngOnInit() {}
+
+  ngOnDestroy() {}
 
   createForm() {
     this.loginForm = this._formBuilder.group({
@@ -56,9 +59,14 @@ export class AuthComponent implements OnInit {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      console.log(this.loginForm.value);
-      this._router.navigate(['/favorite']);
-      // this._authService.loginUser(this.loginForm.);
+      const { username, password } = this.loginForm.value;
+      console.log(username, password);
+      this._authService
+        .loginUser(new LoginDto(username, password))
+        .subscribe((res) => {
+          console.log(res);
+          this._router.navigate(['/favorite']);
+        });
     } else {
       this._matSnackBar.open('Please fill in the form correctly', 'Close', {});
     }

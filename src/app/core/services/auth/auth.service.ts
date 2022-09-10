@@ -15,7 +15,7 @@ export class AuthService {
 
   loginUser(loginDto: LoginDto): Observable<ILoginResponse> {
     return this.http
-      .post<ILoginResponse>(`${this.apiUrl}/auth/login`, loginDto)
+      .post<ILoginResponse>(`${this.apiUrl}/auth`, loginDto)
       .pipe(retry(3), catchError(this.handleError));
   }
 
