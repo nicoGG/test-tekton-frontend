@@ -9,15 +9,6 @@ const routes: Routes = [
     path: '',
     component: HomePageComponent,
     canActivate: [AuthGuard],
-    //   children: [
-    //     {
-    //       path: 'favorite',
-    //       loadChildren: () =>
-    //         import('./modules/favorite/favorite.module').then(
-    //           (m) => m.FavoriteModule
-    //         ),
-    //     },
-    //   ],
   },
   {
     path: 'auth',
@@ -27,6 +18,7 @@ const routes: Routes = [
   },
   {
     path: 'favorite',
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import('./modules/favorite/favorite.module').then(
         (m) => m.FavoriteModule

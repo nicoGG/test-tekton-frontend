@@ -12,7 +12,10 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 @NgModule({
   imports: [
     CommonModule,
@@ -28,6 +31,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatProgressBarModule,
     MatProgressSpinnerModule,
     MatDialogModule,
+    MatGridListModule,
+    MatCheckboxModule,
+    MatChipsModule,
+    MatAutocompleteModule,
   ],
   exports: [
     MatButtonModule,
@@ -42,6 +49,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatProgressBarModule,
     MatProgressSpinnerModule,
     MatDialogModule,
+    MatGridListModule,
+    MatCheckboxModule,
+    MatChipsModule,
+    MatAutocompleteModule,
   ],
 })
 export class AngularMaterialModule {}

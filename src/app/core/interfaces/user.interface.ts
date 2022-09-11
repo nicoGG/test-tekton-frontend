@@ -1,6 +1,10 @@
 export interface IUser {
   id: string;
-  user: string;
+  username: string;
   email: string;
-  password: string;
+  password?: string;
+  favorites?: string[];
+  version?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

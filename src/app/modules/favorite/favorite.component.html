@@ -1,1 +1,82 @@
-<p>favorite works!</p>
+<div class="card-wrapper">
+  <button mat-flat-button type="button" color="primary" (click)="logout()" >
+    Logout
+  </button>
+  <mat-card class="card">
+    <mat-card-header>
+      <img
+        src="https://www.freakyjolly.com/wp-content/uploads/2021/07/cropped-cropped-fj-logo-192-removebg-preview-e1625997712615-1.png"
+        mat-card-avatar />
+      <mat-card-title>Music</mat-card-title>
+    <mat-card-subtitle>
+      <p>
+        Welcome <strong>{{ userInfo?.email ?? 'User'}}</strong>  
+      </p>
+      <p>
+        Please, select your favorite music
+      </p>
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content >
+      <mat-form-field class="example-full-width"  appearance="outline">
+        <mat-label>Your favorites genres</mat-label>
+          <mat-chip-list #chipList aria-label="Genre selection">
+            <mat-chip *ngFor="let favorite of userInfo?.favorites"
+              [selectable]="false" [removable]="true" 
+              (removed)="removeFavorite(favorite)">
+              {{favorite | capitalize}}
+              <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+            <input *ngIf="favoritesUser.length < 5" placeholder="Search genre..." 
+              #genreInput [formControl]="searchGenreControl" 
+              [matAutocomplete]="auto" 
+              [matChipInputFor]="chipList" 
+              (matChipInputTokenEnd)="addFavorite($event)">
+              <mat-error *ngIf="favoritesUser.length < 5">{{getErrorMessage}}</mat-error>
+            </mat-chip-list>
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="genreSelected($event)">
+            <mat-option *ngFor="let genre of filteredGenres | async" [value]="genre">
+              {{ genre | capitalize}}
+            </mat-option>
+          </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-card class="card">
+        <div fxFlex="100%" fxFlex.xs="50%" fxFlex.sm="33%">
+          <h2>Principal recommendation</h2>
+          <mat-card class="card" class="mat-elevation-z4">
+            <mat-card-title-group>
+              <mat-card-title>{{principalName}}</mat-card-title>
+              <mat-card-subtitle><strong>Artists </strong>{{getPrincipalArtists}}</mat-card-subtitle>             
+              <mat-card-subtitle><strong>Album </strong>{{getPrincipalAlbums}}</mat-card-subtitle>             
+              <mat-card-subtitle><strong>Release date </strong>{{getPrincipalReleaseDate}}</mat-card-subtitle>             
+              <img style="width: 30%; height: 30%" *ngIf="recommendation" mat-card-image src="{{getPrincipalImage}}" alt="{{getPrincipalImage}}">
+            </mat-card-title-group>
+            <a [href]="recommendation?.principalTrack?.external_urls?.spotify" target="_blank">Listen on Spotify</a>
+          </mat-card>
+        </div>
+      </mat-card>          
+      <div class="content">
+        <p>Other recomandations</p>
+        <div fxLayout="row wrap" fxLayoutGap="16px grid">
+        <div fxFlex="25%" fxFlex.xs="30%" fxFlex.sm="40%" *ngFor="let rec of recommendation?.tracks; let i = index">
+          <mat-card class="mat-elevation-z4">
+            <mat-card-header>
+              <mat-card-title>{{rec.name}}</mat-card-title>
+              <mat-card-subtitle>{{getArtistName(i)}}</mat-card-subtitle>
+            </mat-card-header>
+            card-con
+            <mat-card-content>
+              <img mat-card-xl-image *ngIf="rec && rec?.album" mat-card-image src="{{getImage(i)}}" alt="">
+            </mat-card-content>
+          </mat-card>
+        </div>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="accent">LIKE</button>
+      <button mat-raised-button color="primary">SHARE</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

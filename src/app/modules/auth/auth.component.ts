@@ -10,6 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth/auth.service';
 import { LoginDto } from './dtos/login.dto';
+import { ILoginResponse } from './../../core/interfaces/login-response.interface';
 
 @Component({
   selector: 'app-auth',
@@ -39,7 +40,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   createForm() {
     this.loginForm = this._formBuilder.group({
       username: [
-        null,
+        'jorgito test',
         [
           Validators.required,
           Validators.minLength(3),
@@ -47,7 +48,7 @@ export class AuthComponent implements OnInit, OnDestroy {
         ],
       ],
       password: [
-        null,
+        'jorgito123TEST',
         [
           Validators.required,
           Validators.minLength(3),
@@ -63,9 +64,10 @@ export class AuthComponent implements OnInit, OnDestroy {
       console.log(username, password);
       this._authService
         .loginUser(new LoginDto(username, password))
-        .subscribe((res) => {
-          console.log(res);
-          this._router.navigate(['/favorite']);
+        .subscribe((response: ILoginResponse) => {
+          AuthService.setToken<string>(response.token);
+          if (response.token) this._router.navigate(['/favorite']);
+          else this._matSnackBar.open('Invalid credentials', 'Close');
         });
     } else {
       this._matSnackBar.open('Please fill in the form correctly', 'Close', {});
