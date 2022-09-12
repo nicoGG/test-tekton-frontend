@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormBuilder,
@@ -62,15 +63,30 @@ export class AuthComponent implements OnInit, OnDestroy {
     if (this.loginForm.valid) {
       const { username, password } = this.loginForm.value;
       console.log(username, password);
-      this._authService
-        .loginUser(new LoginDto(username, password))
-        .subscribe((response: ILoginResponse) => {
+      this._authService.loginUser(new LoginDto(username, password)).subscribe(
+        (response: ILoginResponse) => {
           AuthService.setToken<string>(response.token);
           if (response.token) this._router.navigate(['/favorite']);
-          else this._matSnackBar.open('Invalid credentials', 'Close');
-        });
+          else
+            this._matSnackBar.open('Invalid credentials', 'Close', {
+              duration: 3000,
+            });
+        },
+        (httpErrorResponse: HttpErrorResponse) => {
+          console.error(httpErrorResponse);
+          this._matSnackBar.open(
+            `[${httpErrorResponse.status}] ${httpErrorResponse.message}`,
+            'Close',
+            {
+              duration: 3000,
+            }
+          );
+        }
+      );
     } else {
-      this._matSnackBar.open('Please fill in the form correctly', 'Close', {});
+      this._matSnackBar.open('Please fill in the form correctly', 'Close', {
+        duration: 3000,
+      });
     }
   }
 

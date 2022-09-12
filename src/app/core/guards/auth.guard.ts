@@ -23,11 +23,14 @@ export class AuthGuard implements CanActivate {
     | UrlTree
     | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree> {
+    console.log('AuthGuard#canActivate called', this.authService.getUserInfo());
     if (AuthService.getToken()) {
       return true;
-    } else {
-      this.router.navigate(['/auth']);
     }
+    // if (this.authService.getUserInfo()) {
+    //   return true;
+    // }
+    this.router.navigate(['/auth/login']);
     return false;
   }
 }

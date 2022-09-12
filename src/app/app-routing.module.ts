@@ -9,6 +9,17 @@ const routes: Routes = [
     path: '',
     component: HomePageComponent,
     canActivate: [AuthGuard],
+    children: [
+      { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
+      {
+        path: 'favorite',
+        canActivate: [AuthGuard],
+        loadChildren: () =>
+          import('./modules/favorite/favorite.module').then(
+            (m) => m.FavoriteModule
+          ),
+      },
+    ],
   },
   {
     path: 'auth',
@@ -17,21 +28,13 @@ const routes: Routes = [
       import('./modules/auth/auth.module').then((m) => m.AuthModule),
   },
   {
-    path: 'favorite',
-    canActivate: [AuthGuard],
-    loadChildren: () =>
-      import('./modules/favorite/favorite.module').then(
-        (m) => m.FavoriteModule
-      ),
-  },
-  {
     path: '**',
     redirectTo: '',
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

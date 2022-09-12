@@ -12,3 +12,22 @@
     display: flex;
     flex-wrap: wrap;
 }
+
+.button-get-recommendations{
+    margin-right: 1vw;
+    background: #00771a;
+    color: white;
+    font-size: 30px;
+    line-height: 60px;
+    height: 60px;
+    width: auto;
+    width:50%;
+    margin-left:25%;
+    margin-right:25%;
+}
+
+.mat-spinner {
+    position: relative;
+    margin-left: 50%;
+    margin-right: 50%;
+}

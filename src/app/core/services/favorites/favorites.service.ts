@@ -13,7 +13,6 @@ export class FavoritesService {
   constructor(private http: HttpClient) {}
 
   updateFavorites(idUser: string, favorites: string[]): Observable<IUser> {
-    console.log('favorites', favorites);
     return this.http.patch<IUser>(`${this.apiUrl}/users/${idUser}`, {
       favorites,
     });
