@@ -190,15 +190,12 @@ export class FavoriteComponent implements OnInit, OnDestroy {
     this.favoritesUser = this.favoritesUser.filter(
       (favorite) => favorite !== event
     );
-    console.log(this.userInfo!.id, this.favoritesUser);
     this.subscriptionFavorites$ = this.favoritesService
       .updateFavorites(this.userInfo!.id, this.favoritesUser)
       .subscribe({
         next: (user: IUser) => {
-          console.log(user);
           if (user) this.userInfo = user;
           this.favoritesUser = user.favorites ?? [];
-          console.log(this.favoritesUser);
           this.getRecommendations();
         },
         error: (httpErrorResponse: HttpErrorResponse) => {

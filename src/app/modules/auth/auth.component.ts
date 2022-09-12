@@ -62,7 +62,6 @@ export class AuthComponent implements OnInit, OnDestroy {
   onSubmit() {
     if (this.loginForm.valid) {
       const { username, password } = this.loginForm.value;
-      console.log(username, password);
       this._authService.loginUser(new LoginDto(username, password)).subscribe(
         (response: ILoginResponse) => {
           AuthService.setToken<string>(response.token);
